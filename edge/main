@@ -10,9 +10,19 @@ BAUD = 9600
 reader = Reader(port=PORT, baud=BAUD)
 sender = Sender(port=PORT, baud=BAUD)
 
+count = int(0)
+
 while(1):
     presence = json.loads(reader.getData())['presence']
 
-    if(presence == True):
+    if (count == 2):
+        time.sleep(3600)
+        count = int(0)
+
+    if(presence == True) and (count < 2):
         sender.alimentar()
         print('PET ALIMENTADO.\n')
+
+        count +=1
+    
+
